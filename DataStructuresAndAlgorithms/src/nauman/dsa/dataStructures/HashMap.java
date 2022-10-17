@@ -1,19 +1,23 @@
 package nauman.dsa.dataStructures;
 
+import java.util.Arrays;
+
 public class HashMap {
+	private int [] arr;
 	public HashMap() {
-		
+		arr = new int [10000000];
+		Arrays.fill(arr, -1);
 	}
 	
 	public void put(int key, int value) {
-		System.out.println("Inserted Key " + key + "And Value" + value);
+		arr[key] = value;
 	}
 	
-	public void get(int key) {
-		System.out.println("Retrived key" + key);
+	public int get(int key) {
+		return arr[key];
 	}
 	
 	public void remove(int key) {
-		System.out.println("Key has been removed "+ key);
+		arr[key] = -1;
 	}
 }
