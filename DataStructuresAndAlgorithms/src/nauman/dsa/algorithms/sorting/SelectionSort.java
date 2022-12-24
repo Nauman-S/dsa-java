@@ -6,6 +6,7 @@ package nauman.dsa.algorithms.sorting;
  * Properties:
  * Space-Complexity: O(1) therefore In-Place
  * Time-Complexity: O(n^2)
+ * Best-Case:O(n^2)
  * Stable Sort
  * 
  * @author     Nauman
