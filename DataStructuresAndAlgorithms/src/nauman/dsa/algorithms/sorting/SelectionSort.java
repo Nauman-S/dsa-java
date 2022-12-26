@@ -7,7 +7,7 @@ package nauman.dsa.algorithms.sorting;
  * Space-Complexity: O(1) therefore In-Place
  * Time-Complexity: O(n^2)
  * Best-Case:O(n^2)
- * Stable Sort
+ * Not Stable Sort
  * 
  * @author     Nauman
  * @version	   1.0
@@ -15,7 +15,7 @@ package nauman.dsa.algorithms.sorting;
 
 public class SelectionSort	 {
 	
-	public static int [] sort(int[] input) {
+	public static void sort(int[] input) {
 		int smallest, temp;
 		for (int i = 0; i < input.length-1; i ++) {
 			smallest = i;
@@ -28,8 +28,7 @@ public class SelectionSort	 {
 			input[i] = input[smallest];
 			input[smallest] = temp;
 		}
-		
-		return input;
+	
 	}
 	
 }
