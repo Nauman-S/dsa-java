@@ -13,7 +13,7 @@ package nauman.dsa.algorithms.sorting;
  * @version	   1.0
  */
 public class BubbleSort {
-	public static int [] sort(int [] input) {
+	public static void sort(int [] input) {
 		
 		int temp;
 		boolean isSorted;
@@ -31,7 +31,5 @@ public class BubbleSort {
 				break;
 			}
 		}
-		
-		return input;
 	}
 }
