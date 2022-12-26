@@ -13,7 +13,7 @@ package nauman.dsa.algorithms.sorting;
  * @version	   1.0
  */
 public class InsertionSort {
-	public static int[] sort (int [] input) {
+	public static void sort (int [] input) {
 		int temp;
 		for (int i = 1; i < input.length; i++) {
 			temp = input[i];
@@ -23,7 +23,5 @@ public class InsertionSort {
 			}
 			input[j+1] = temp; 
 		}
-		
-		return input;
 	}
 }
