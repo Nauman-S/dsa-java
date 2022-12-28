@@ -1,5 +1,17 @@
 package nauman.dsa.algorithms.sorting;
 
+/** 
+ * Implementation of Insertion Sort Algorithm
+ * 
+ * Properties:
+ * Space-Complexity: O(n) 
+ * Time-Complexity: O(nlogn)
+ * Best-case: O(nlogn)
+ * Stable Sort
+ * 
+ * @author     Nauman
+ * @version	   1.0
+ */
 public class MergeSort {
 	public static void sort(int [] input) {
 		mergeSort(input, 0, input.length-1);
