@@ -1,5 +1,20 @@
 package nauman.dsa.algorithms.sorting;
 
+
+/** 
+ * Implementation of Classical Single Pivot Quick Algorithm
+ * 
+ * Properties:
+ * Space-Complexity: O(1) 
+ * Time-Complexity: O(nlogn)
+ * Best-case: O(nlogn)
+ * Worst-Case: O(n^2)
+ * Not Stable
+ * In place
+ * 
+ * @author     Nauman
+ * @version	   1.0
+ */
 public class QuickSort {
 	public static void sort(int [] input) {
 		quickSort(input, 0, input.length-1);
