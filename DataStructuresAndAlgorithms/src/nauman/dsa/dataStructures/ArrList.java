@@ -34,6 +34,9 @@ public class ArrList<E> implements List<E> {
 
 	@Override
 	public void add (E item, int index) {
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException(index);
+		}
 		if (size + 1 > elements.length) {
 			grow();
 		}
@@ -54,7 +57,7 @@ public class ArrList<E> implements List<E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public E get(int index) {
-		if (index >= size) {
+		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(index);
 		}
 		return (E)elements[index];
