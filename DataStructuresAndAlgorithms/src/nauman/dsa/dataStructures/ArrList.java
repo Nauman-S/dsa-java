@@ -3,7 +3,7 @@ package nauman.dsa.dataStructures;
 public class ArrList<E> implements List<E> {
 	
 	private static final int DEFAULT_INITIAL_CAPACITY = 10;
-	
+
 	private Object [] elements;
 	
 	private int size;
@@ -94,7 +94,6 @@ public class ArrList<E> implements List<E> {
 		return (E [])arr;
 	}
 	
-	@SuppressWarnings("unused")
 	private void grow() {
 		int newCapacity;
 		if (elements.length < DEFAULT_INITIAL_CAPACITY) {
@@ -105,9 +104,6 @@ public class ArrList<E> implements List<E> {
 		
 		Object [] newElements = new Object [newCapacity];
 		
-		if (newElements == null) {
-			throw new OutOfMemoryError();
-		}
 		
 		for (int i = 0; i < size; i++) {
 			newElements[i] = elements[i];
