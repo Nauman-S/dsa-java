@@ -56,7 +56,7 @@ public class ArrayQueue <E> implements Queue<E> {
 	}
 	
 	public void grow() {
-		int newCapacity = elements.length >> 2 + elements.length;
+		int newCapacity = elements.length >>> 1 + elements.length;
 		
 		Object [] arr = new Object [newCapacity];
 		int index = 0;
