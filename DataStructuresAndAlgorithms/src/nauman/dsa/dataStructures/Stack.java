@@ -55,7 +55,7 @@ public class Stack <E> {
 		return size == 0;
 	}
 	public void grow () {
-		int newCapacity = elements.length + elements.length >> 2;
+		int newCapacity = elements.length + elements.length >> 1;
 		Object [] arr = new Object[newCapacity];
 		
 		for (int i = 0; i <size; i++) {
