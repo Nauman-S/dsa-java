@@ -1,5 +1,6 @@
 package nauman.dsa.dataStructures;
 
+import java.util.Collection;
 import java.util.Comparator;
 
 /*
@@ -27,7 +28,13 @@ public class MaxHeap<E> implements Heap<E> {
 		this.heap = new Object [INITIAL_CAPACITY];
 		this.size = 0;
 	}
-
+	
+	public MaxHeap (Comparator<E> comp, Collection<E> collection) {
+		this.comp = comp;
+		this.heap = collection.toArray();
+		this.size = collection.size();
+		heapify();
+	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public E peek() {
@@ -35,6 +42,7 @@ public class MaxHeap<E> implements Heap<E> {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public E poll() {
 		if (size == 0) return null;
@@ -102,6 +110,15 @@ public class MaxHeap<E> implements Heap<E> {
 			index = child;
 			child = leftChild(index);
 		}
+	}
+	
+	public void heapify() {
+		if (size < 2) return;
+		int index = parent(size-1);
+		for (;index >= 0; index--) {
+			siftDown(index);
+		}
+		return;
 	}
 	
 	private int parent (int index) {
