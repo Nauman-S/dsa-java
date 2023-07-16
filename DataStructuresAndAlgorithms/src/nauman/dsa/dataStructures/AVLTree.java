@@ -88,11 +88,11 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
     }
 
     private void insertNewNode(K key, V value) {
-        TreeNode<K,V> node = new TreeNode<>(key, value);
+        TreeNode<K,V> newNode = new TreeNode<>(key, value);
         if (isEmpty()) {
-            root = node;
+            root = newNode;
         } else {
-            root = insertion(root, node);
+            root = insertion(root, newNode);
         }
     }
 
