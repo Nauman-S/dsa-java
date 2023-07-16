@@ -2,6 +2,7 @@ package nauman.dsa.dataStructures;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Stack;
 
 /*
  * Quick Recap of AVLTree Properties
@@ -52,7 +53,13 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
 
     @Override
     public K successor(K key) {
-        return null;
+        if (root == null) {
+            return null;
+        }
+        Stack<TreeNode<K,V>> history = generateHistoryToClosestNodeWithKey(key, root);
+        TreeNode<K,V> successor = findSuccessorFromClosestNode(key, history);
+
+        return successor == null ? null: successor.key;
     }
 
     @Override
@@ -144,6 +151,42 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
             return leftRotate(node);
         }
     }
+
+    private Stack<TreeNode<K,V>> generateHistoryToClosestNodeWithKey(K key, TreeNode<K,V> node) {
+        Stack<TreeNode<K,V>> history = new Stack<>();
+        int comparison;
+        while (node != null) {
+            history.push(node);
+            comparison = comparator.compare(key, node.key);
+            if (comparison < 0) {
+                node = node.leftChild;
+            } else if(comparison > 0) {
+                node = node.rightChild;
+            } else {
+                break;
+            }
+        }
+        return history;
+    }
+
+    public TreeNode <K,V> findSuccessorFromClosestNode(K key, Stack<TreeNode<K,V>> history) {
+        if (comparator.compare(key, history.peek().key) < 0)  {
+            return history.peek();
+        } else if(history.peek().rightChild != null) {
+            return history.peek().rightChild.searchMin();
+        } else {
+            TreeNode<K,V> node = history.pop();
+
+            while (!history.isEmpty()) {
+                if (comparator.compare(node.getKey(), history.peek().key) < 0 ){
+                    return history.pop();
+                }
+                node = history.pop();
+            }
+            return null;
+        }
+    }
+
 
     public TreeNode<K,V> leftRotate(TreeNode<K,V> A) {
         TreeNode<K,V> B = A.rightChild;
