@@ -4,14 +4,18 @@ import java.util.Comparator;
 import java.util.Map;
 
 /*
- * Implementation notes.
+ * Quick Recap of AVLTree Properties
  *
  * 1). Every Node Stores the height of the Tree. Upon insertion, all heights along insertion path are updated.
  * 2). Height Balance is defined as : |v.left.height - v.right.height| <= 1  ( this property in-turn provides h <= 1.44log(n) )
- * 3). An AVLTree IS ALSO a BST. i.e. left Subtree < root < right Subtree
- * 4). Right Rotations in AVL Tree Node requires that it must have a leftChild. Used for left Heavy Trees.
- * 5). Left Rotations in AVL Tree Node requires that it must have a rightChild. Used for Right Heavy Trees.
- * 6). Worst Case you need 2 rotations after an insertion
+ * 3). An AVL Tree is ALSO a BST. i.e. left All nodes in Subtree < root < All nodes in right Subtree
+ * 4). Right Rotations in AVL Tree for left Heavy imbalanced Nodes. This is Simple Case 1.
+ * 5). Left Rotations in AVL Tree for Right Heavy imbalanced Nodes. This is Simple Case 2.
+ * 6). 1 special subcases for each of the above 2 Simple cases that requires up to 2 rotations for an imbalance node.
+ *     Worst Case 1   :  Left Heavy (node) + Right Heavy (node.leftChild)
+ *     Solution       :  Left Rotate (node.LeftChild) => Right Rotate (node)
+ *     Worst Case 2   :  Right Heavy (node) + Left Heavy (node.rightChild)
+ *     Solution       :  Right Rotate (node.rightChild) => Left Rotate(node)
  * 7). Deletion Requires O(log(n)) rotations in worst case
  */
 public class AVLTree<K,V> implements BalancedBST<K,V>{
