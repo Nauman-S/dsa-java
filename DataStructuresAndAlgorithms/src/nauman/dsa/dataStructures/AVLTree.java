@@ -17,6 +17,7 @@ import java.util.Map;
  *     Worst Case 2   :  Right Heavy (node) + Left Heavy (node.rightChild)
  *     Solution       :  Right Rotate (node.rightChild) => Left Rotate(node)
  * 7). Deletion Requires O(log(n)) rotations in worst case
+ * 8). The key for successor need not exist to find successor
  */
 public class AVLTree<K,V> implements BalancedBST<K,V>{
     Comparator<K> comparator;
