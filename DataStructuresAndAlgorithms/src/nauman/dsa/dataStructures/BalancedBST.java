@@ -9,6 +9,10 @@ public interface BalancedBST <K,V>{
     public K predecessor(K key);
     public boolean delete (K key);
 
+    public K searchMin ();
+
+    public K searchMax ();
+
     public int size();
 
     public boolean isEmpty();
