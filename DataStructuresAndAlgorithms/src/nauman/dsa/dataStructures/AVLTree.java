@@ -42,7 +42,7 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
 
     @Override
     public boolean contains(K key) {
-        return false;
+        return search(key) != null;
     }
 
     @Override
