@@ -65,6 +65,18 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
     }
 
     @Override
+    public K searchMin() {
+        if (root == null) return null;
+        return root.searchMin().getKey();
+    }
+
+    @Override
+    public K searchMax() {
+        if (root == null) return null;
+        return root.searchMax().getKey();
+    }
+
+    @Override
     public int size() {
         return this.size;
     }
@@ -192,6 +204,16 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
             this.height = 0;
             this.leftChild = null;
             this.rightChild = null;
+        }
+
+        public TreeNode<K,V> searchMin() {
+            if (this.leftChild == null) return this;
+            return this.leftChild.searchMin();
+        }
+
+        public TreeNode<K,V> searchMax() {
+            if (this.rightChild == null) return this;
+            return this.rightChild.searchMax();
         }
 
         @Override
