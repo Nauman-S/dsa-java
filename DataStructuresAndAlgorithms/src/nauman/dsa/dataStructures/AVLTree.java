@@ -88,7 +88,7 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
         if (isEmpty()) {
             root = node;
         } else {
-            insertion(root, node);
+            root = insertion(root, node);
         }
     }
 
