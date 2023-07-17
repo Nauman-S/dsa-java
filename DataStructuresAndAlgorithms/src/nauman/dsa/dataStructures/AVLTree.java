@@ -64,7 +64,12 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
 
     @Override
     public K predecessor(K key) {
-        return null;
+        if (root == null) {
+            return null;
+        }
+        Stack<TreeNode<K,V>> history = generateHistoryToClosestNodeWithKey(key, root);
+        TreeNode<K,V> predecessor = findPredecessorFromClosestNode(key, history);
+        return predecessor == null ? null: predecessor.key;
     }
 
     @Override
@@ -186,6 +191,25 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
             return null;
         }
     }
+
+    public TreeNode <K,V> findPredecessorFromClosestNode(K key, Stack<TreeNode<K,V>> history) {
+        if (comparator.compare(key, history.peek().key) > 0)  {
+            return history.peek();
+        } else if(history.peek().leftChild != null) {
+            return history.peek().leftChild.searchMax();
+        } else {
+            TreeNode<K,V> node = history.pop();
+
+            while (!history.isEmpty()) {
+                if (comparator.compare(node.getKey(), history.peek().key) > 0 ){
+                    return history.pop();
+                }
+                node = history.pop();
+            }
+            return null;
+        }
+    }
+
 
 
     public TreeNode<K,V> leftRotate(TreeNode<K,V> A) {
