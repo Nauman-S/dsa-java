@@ -19,6 +19,11 @@ import java.util.Stack;
  *     Solution       :  Right Rotate (node.rightChild) => Left Rotate(node)
  * 7). Deletion Requires O(log(n)) rotations in worst case
  * 8). The key for successor need not exist to find successor
+ * 9). Deletion may take up to log(n) rotations - for every ancestor of deleted node, you must check if it is heigh balanced via rotations
+ *
+ * AVL vs RedBlack Tree
+ * AVL is faster on search
+ * Red black is faster on insert and delete (Esp delete)
  */
 public class AVLTree<K,V> implements BalancedBST<K,V>{
     Comparator<K> comparator;
@@ -74,7 +79,12 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
 
     @Override
     public boolean delete(K key) {
-        return false;
+        Stack<TreeNode<K,V>> pathToNode =  generateHistoryToClosestNodeWithKey(key, root);
+        if (pathToNode.isEmpty() || comparator.compare(pathToNode.peek().key, key)!=0 ) return false;
+        performDeletion(pathToNode);
+        balanceAllNodes(pathToNode);
+        size--;
+        return true;
     }
 
     @Override
@@ -257,6 +267,87 @@ public class AVLTree<K,V> implements BalancedBST<K,V>{
 
     public int rightHeight(TreeNode<K,V> node) {
         return node.rightChild != null ? node.rightChild.height : -1;
+    }
+
+    public void performDeletion (Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> nodeToDelete = pathToDeletedNode.peek();
+        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) {
+            deleteNodeWithNoChildren(pathToDeletedNode);
+        } else if(nodeToDelete.leftChild == null || nodeToDelete.rightChild == null) {
+            deleteNodeWithSingleChild(pathToDeletedNode);
+        } else {
+            deleteNodeWithBothChildren(pathToDeletedNode);
+        }
+    }
+
+    public void deleteNodeWithNoChildren(Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> nodeToDelete = pathToDeletedNode.pop();
+        if (pathToDeletedNode.isEmpty()) {
+            root = null;
+        }else if (pathToDeletedNode.peek().leftChild == nodeToDelete){
+            pathToDeletedNode.peek().leftChild = null;
+        } else {
+            pathToDeletedNode.peek().rightChild = null;
+        }
+    }
+
+    public void deleteNodeWithSingleChild(Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> nodeToDelete = pathToDeletedNode.pop();
+        TreeNode<K,V> childNode = nodeToDelete.leftChild!=null ? nodeToDelete.leftChild : nodeToDelete.rightChild;
+        if (pathToDeletedNode.isEmpty()) {
+            root = childNode;
+        } else {
+            TreeNode<K,V> parentNode = pathToDeletedNode.pop();
+            if (parentNode.leftChild == nodeToDelete) {
+                parentNode.leftChild = childNode;
+            } else {
+                parentNode.rightChild = childNode;
+            }
+        }
+    }
+
+    public void deleteNodeWithBothChildren (Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> nodeToDelete = pathToDeletedNode.peek();
+        updateHistoryToSuccessor(pathToDeletedNode);
+        TreeNode<K,V> successor = pathToDeletedNode.peek();
+        nodeToDelete.key = successor.key;
+        nodeToDelete.value = successor.value;
+        if (successor.leftChild != null || successor.rightChild != null) {
+            deleteNodeWithSingleChild(pathToDeletedNode);
+        } else {
+            deleteNodeWithNoChildren(pathToDeletedNode);
+        }
+    }
+
+    public void updateHistoryToSuccessor (Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> nodesOnPathToSuccessor = pathToDeletedNode.peek().rightChild;
+        while (nodesOnPathToSuccessor != null) {
+            pathToDeletedNode.push(nodesOnPathToSuccessor);
+            nodesOnPathToSuccessor = pathToDeletedNode.peek().leftChild;
+        }
+    }
+
+    public void balanceAllNodes (Stack<TreeNode<K,V>> pathToDeletedNode) {
+        TreeNode<K,V> node;
+        TreeNode<K,V> parent = pathToDeletedNode.pop();
+        while (parent != null) {
+            node = parent;
+            parent = pathToDeletedNode.isEmpty() ? null : pathToDeletedNode.pop();
+            updateHeight(node);
+            if (isHeightBalanced(node)) {
+                continue;
+            }
+            if (parent == null) {
+                root = balanceTree(node);
+            } else {
+                if (parent.leftChild == node) {
+                    parent.leftChild = balanceTree(node);
+                } else {
+                    parent.rightChild = balanceTree (node);
+                }
+            }
+
+        }
     }
 
     static class TreeNode <K,V> implements Map.Entry<K,V> {
